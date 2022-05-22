@@ -3,8 +3,10 @@ import "../styles/Layout.css"
 import SearchIcon from '@mui/icons-material/Search';
 import {ShoppingBasket} from "@mui/icons-material";
 import {Link, Outlet} from "react-router-dom";
+import {useStateValue} from "./StateProvider";
 
 function Layout() {
+    const [{basket}, dispatch] = useStateValue();
     return (
         <div className="layout">
             <div className="header">
@@ -28,7 +30,7 @@ function Layout() {
                     </div>
                     <div className="header_optionBasket">
                         <ShoppingBasket/>
-                        <span className="header_optionLineTwoheader_basketCount">100
+                        <span className="header_optionLineTwoheader_basketCount">{basket.length}
                     </span>
                     </div>
                 </div>
