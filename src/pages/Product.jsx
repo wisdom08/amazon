@@ -25,7 +25,7 @@ function Product({id, title, image, price, rating}) {
             <div className="product_info">
                 <p>{title}</p>
                 <p className="propduct_price">
-                    <smallr>가격</smallr>
+                    <small>가격</small>
                     <strong>{price}</strong>
                     <small>원</small>
                 </p>
