@@ -7,6 +7,8 @@ import Login from "./pages/Login";
 import {useEffect} from "react";
 import {auth} from "./config/firebase";
 import {useStateValue} from "./components/StateProvider";
+import Payment from "./pages/Payment";
+import Orders from "./pages/Orders";
 
 function App() {
 
@@ -34,6 +36,8 @@ function App() {
                 <Route index element={<Home/>}/>
                 <Route path="/checkout" element={<Checkout/>}/>
                 <Route path="/login" element={<Login/>}/>
+                <Route path="/payment" element={<Payment/>}/>
+                <Route path="/orders" element={<Orders/>}/>
             </Route>
         </Routes>
     </div>

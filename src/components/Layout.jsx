@@ -25,17 +25,21 @@ function Layout() {
                     <SearchIcon className="header_searchIcon"/>
                 </div>
                 <div className="header_nav">
-                    <Link to={!user && "/login"}>
+
                         <div className="header_option">
                             <span className="header_optionLineOne">안녕하세요!</span>
+                            <Link to={!user && "/login"} className="homeLogin">
                             <span
                                 onClick={handleAuthentication}
                                 className="header_optionLineTwo">{user ? "로그아웃" : "로그인하기"} </span>
+                            </Link>
+
                         </div>
-                    </Link>
                     <div className="header_option">
                         <span className="header_optionLineOne">돌아가기</span>
-                        <span className="header_optionLineTwo">주문내역</span>
+                        <Link to="/orders" className="orderList">
+                            <span className="header_optionLineTwo">주문내역</span>
+                        </Link>
                     </div>
                     <div className="header_option">
                         <span className="header_optionLineOne">반가워요</span>
