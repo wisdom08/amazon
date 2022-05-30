@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import "../styles/Payment.css"
-import {useStateValue} from "../components/StateProvider";
 import {Link, useNavigate} from "react-router-dom";
 import CheckoutProduct from "./CheckoutProduct";
 import CurrencyFormat from "react-currency-format";
-import {getBasketTotal} from "../components/Reducer";
 import {CardElement, useElements, useStripe} from "@stripe/react-stripe-js";
 import axios from "../components/axios";
 import {db} from "../config/firebase";
+import {useDispatch, useSelector} from "react-redux";
+import {emptyBasket} from "../redux";
+import {getBasketTotal} from "../redux/basket/reducer";
 
 function Payment() {
 
-    const [{basket, user}, dispatch] = useStateValue();
     const navigate = useNavigate();
 
     const stripe = useStripe();
@@ -23,6 +23,10 @@ function Payment() {
     const [error, setError] = useState(null);
     const [disabled, setDisabled] = useState(true);
     const [clientSecret, setClientSecret] = useState(true);
+
+    const basket = useSelector((state) => state.basket.basket);
+    const user = useSelector((state) => state.user.user);
+    const dispatch = useDispatch();
 
 
     useEffect(() => {
@@ -66,10 +70,7 @@ function Payment() {
             setError(null)
             setProcessing(false)
 
-            dispatch({
-                type: 'EMPTY_BASKET'
-            })
-
+            dispatch(emptyBasket())
 
             navigate('/orders')
 
@@ -115,7 +116,7 @@ function Payment() {
                     </div>
                     <div className='payment_items'>
                         {basket.map(item => (
-                            <CheckoutProduct
+                            <CheckoutProduct key={item}
                                 id={item.id}
                                 title={item.title}
                                 image={item.image}

@@ -3,16 +3,19 @@ import "../styles/Layout.css"
 import SearchIcon from '@mui/icons-material/Search';
 import {ShoppingBasket} from "@mui/icons-material";
 import {Link, Outlet} from "react-router-dom";
-import {useStateValue} from "./StateProvider";
+import {useDispatch, useSelector} from "react-redux";
 import {auth} from "../config/firebase";
 
 function Layout() {
-    const [{basket, user}, dispatch] = useStateValue();
 
-    function handleAuthentication() {
+    const basket = useSelector((state) => state.basket.basket);
+    const user = useSelector((state) => state.user.user);
+
+    const handleAuthentication = () => {
         if (user) {
             auth.signOut();
         }
+
     }
 
     return (
@@ -48,7 +51,8 @@ function Layout() {
                     <div className="header_optionBasket">
                         <Link to="/checkout">
                             <ShoppingBasket/>
-                            <span className="header_optionLineTwoheader_basketCount">{basket.length}
+                            <span className="header_optionLineTwoheader_basketCount">
+                                {basket?.length}
                             </span>
                         </Link>
                     </div>

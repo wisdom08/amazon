@@ -1,44 +1,31 @@
 import React from 'react';
 import "../styles/Product.css"
 import {Link} from "react-router-dom";
-import {useStateValue} from "../components/StateProvider";
+import {useDispatch} from "react-redux";
+import {addToBasket} from "../redux";
 
-function Product({id, title, image, price, rating}) {
+function Product(basket) {
 
-    const [{basket}, dispatch] = useStateValue();
-    const addToBasket = () => {
-        dispatch({
-            type:"ADD_TO_BASKET",
-            item: {
-                id: id,
-                title: title,
-                image: image,
-                price: price,
-                rating: rating,
-            },
-        });
-
-    };
-
+    const dispatch = useDispatch();
     return (
         <div className="product">
             <div className="product_info">
-                <p>{title}</p>
+                <p>{basket.title}</p>
                 <p className="propduct_price">
                     <small>가격</small>
-                    <strong>{price}</strong>
+                    <strong>{basket.price}</strong>
                     <small>원</small>
                 </p>
                 <div className="product_rating">
                     {
-                        Array(rating).fill().map(() => (<p>⭐️</p>))
+                        Array(basket.rating).fill().map((v, i) => (<p key={i}>⭐️</p>))
                     }
                 </div>
             </div>
-            <img src={image} alt=""/>
+            <img src={basket.image} alt=""/>
             <Link to="/checkout">
                 <button
-                    onClick={addToBasket}
+                    onClick={() => dispatch(addToBasket(basket))}
                     className="product_basketButton">장바구니에 담기
                 </button>
             </Link>

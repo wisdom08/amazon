@@ -1,20 +1,22 @@
-export const initialState = {
+import {ADD_TO_BASKET, REMOVE_FROM_BASKET, EMPTY_BASKET} from "./types";
+
+const initialState = {
     basket: [],
-    user: null,
 }
 
-export const getBasketTotal = (basket) =>
-    basket?.reduce((amount, item) => item.price + amount, 0);     // reduce 파악하기
+export const getBasketTotal = (basket) => {
+    return basket?.reduce((amount, item) => item.price + amount, 0);
+}
 
-
-const reducer = (state, action) => {
+const basketReducer = (state =initialState, action) => {
+    let copy = [...state.basket]
     switch (action.type) {
-        case 'ADD_TO_BASKET':
+        case ADD_TO_BASKET:
             return {
-                ...state,
-                basket: [...state.basket, action.item]
+                ...copy,
+                basket: [...copy, action.payload]
             };
-        case 'REMOVE_FROM_BASKET':
+        case REMOVE_FROM_BASKET:
             const index = state.basket.findIndex(
                 (basketItem) => basketItem.id === action.id
             );
@@ -34,19 +36,17 @@ const reducer = (state, action) => {
                 ...state,
                 basket: newBasket
             };
-        case 'SET_USER':
-            return {
-                ...state,
-                user: action.user
-            };
         case 'EMPTY_BASKET':
             return {
                 ...state,
                 basket: []
             }
-        default:
-            return state;
+        default: {
+            return {
+                ...state
+            };
+        }
     }
 }
 
-export default reducer;
+export default basketReducer;

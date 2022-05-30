@@ -1,17 +1,11 @@
 import React from 'react';
 import "../styles/CheckoutProduct.css"
-import {useStateValue} from "../components/StateProvider";
+import {useDispatch} from "react-redux";
+import {removeFromBasket} from "../redux";
 
 function CheckoutProduct({id, image, title, price, rating, hideButton}) {
 
-    const [{basket}, dispatch] = useStateValue();
-
-    const removeFromBasket = () => {
-        dispatch({
-            type: "REMOVE_FROM_BASKET",
-            id:id
-        })
-    }
+    const dispatch = useDispatch();
 
     return (
         <div className="checkoutProduct">
@@ -27,11 +21,11 @@ function CheckoutProduct({id, image, title, price, rating, hideButton}) {
                 </p>
                 <div className="checkoutProduct_rating">
                     {
-                        Array(rating).fill().map(() => (<p>⭐️</p>))
+                        Array(rating).fill().map((v, i) => (<p key={i}>⭐️</p>)) // 에러 어떻게 제거할 수 있는지?
                     }
                 </div>
 
-                {!hideButton && (<button onClick={removeFromBasket}>장바구니에서 제거하기</button>)}
+                {!hideButton && (<button onClick={()=>dispatch(removeFromBasket(id))}>장바구니에서 제거하기</button>)}
 
             </div>
 

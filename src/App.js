@@ -6,25 +6,21 @@ import Checkout from "./pages/Checkout";
 import Login from "./pages/Login";
 import {useEffect} from "react";
 import {auth} from "./config/firebase";
-import {useStateValue} from "./components/StateProvider";
 import Payment from "./pages/Payment";
 import Orders from "./pages/Orders";
+import {setUser} from "./redux";
+import {useDispatch} from "react-redux";
 
 function App() {
 
-    const [{Basket, user}, dispatch] = useStateValue();
+    const dispatch = useDispatch();
+
     useEffect(() => {
         auth.onAuthStateChanged(authUser => {
             if (authUser) {
-                dispatch({
-                    type:'SET_USER',
-                    user: authUser,
-                })
+                dispatch(setUser(authUser));
             } else {
-                dispatch({
-                    type:'SET_USER',
-                    user: null
-                })
+                dispatch(setUser(null));
             }
         })
     }, []);

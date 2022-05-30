@@ -1,11 +1,13 @@
 import React from 'react';
 import "../styles/Checkout.css"
-import {useStateValue} from "../components/StateProvider";
 import Subtotal from "./Subtotal";
+import {useSelector} from "react-redux";
 import CheckoutProduct from "./CheckoutProduct";
 
 function Checkout() {
-    const [{basket, user}, dispatch] = useStateValue();
+
+    const basket = useSelector((state) => state.basket.basket);
+    const user = useSelector((state) => state.user.user);
 
     return (
         <div className="checkout">
@@ -19,14 +21,14 @@ function Checkout() {
                         {user? user.email : "방문자"} 님의 장바구니입니다.
                     </h2>
 
-                    {basket.map(item => (
-                        <CheckoutProduct id={item.id} title={item.title} image={item.image}
+                    {basket.map((item) => (
+                        <CheckoutProduct key={item.id}
+                            id={item.id} title={item.title} image={item.image}
                                          price={item.price} rating={item.rating}
                         />
                     ))}
 
                 </div>
-
 
             </div>
             <div className="checkout_right">
@@ -35,5 +37,14 @@ function Checkout() {
         </div>
     );
 }
+
+// function mapStateToProps(state) {
+//     return {
+//         basket: state.basket,
+//         user: state.user
+//     }
+// }
+//
+// export default connect(mapStateToProps)(Checkout);
 
 export default Checkout;
